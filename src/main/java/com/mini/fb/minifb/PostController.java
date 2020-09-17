@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 // This class handles logic of Insertion, Updating, Selecting,Deletion of the table posts
@@ -34,9 +35,16 @@ public class PostController {
     }
 
 
-    @RequestMapping(value = "/getAllPosts",method = RequestMethod.GET,produces = MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/getAllPosts", method = RequestMethod.GET, produces = MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE)
     public List<PostModel> getAllPosts() {
         return postRepository.findAll();
     }
+
+    @RequestMapping(value = "/getPostById", method = RequestMethod.GET, produces = MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE)
+    public Optional<PostModel> getPostById(@RequestParam("id") Long id) {
+
+        return postRepository.findById(id);
+    }
+
 
 }
