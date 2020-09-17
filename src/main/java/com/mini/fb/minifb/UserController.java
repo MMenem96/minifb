@@ -2,7 +2,6 @@ package com.mini.fb.minifb;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +17,25 @@ public class UserController {
 
     //Save a user into db
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void signUp(@RequestBody UserModel userModel) {
-        userRepo.save(userModel);
+    public CustomResponse signUp(@RequestBody UserModel userModel) {
+
+        if (userRepo.isUserExists(userModel.getEmail()) == null) {
+            userRepo.save(userModel);
+            return new CustomResponse("Signed Up Successfully", userModel);
+        } else {
+            return new CustomResponse("You 're already user, please login");
+        }
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE)
+    public CustomResponse login(@RequestBody UserModel userModel) {
+        if (userRepo.isUserExists(userModel.getEmail(), userModel.getPassword()) == null) {
+            return new CustomResponse("Wrong email or password");
+        } else {
+            return new CustomResponse("Logged in successfully", userRepo.getUserByEmail(userModel.getEmail()));
+        }
+    }
+
 
     //Get all users from db
     @RequestMapping(value = "/getAllUsers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -40,8 +55,10 @@ public class UserController {
 //        return userRepo.deleteUserById(id);
 //    }
     //Delete user from db (another way)
-    @RequestMapping(value = "/deleteUserById", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void deleteUserById(@RequestBody UserModel userModel) {
+    @RequestMapping(value = "/deleteUserById/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public CustomResponse deleteUserById(@PathVariable(name = "id") int id) {
+        UserModel userModel = new UserModel(id);
         userRepo.delete(userModel);
+        return new CustomResponse("Deleted Successfully");
     }
 }

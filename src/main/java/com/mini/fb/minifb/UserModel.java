@@ -79,6 +79,10 @@ public class UserModel {
         this.password = password;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public List<PostModel> getPosts() {
         return posts;
     }
