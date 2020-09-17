@@ -31,6 +31,16 @@ public class PostModel {
     public PostModel() {
     }
 
+    public PostModel(int id, String body) {
+        this.id = id;
+        this.body = body;
+    }
+
+    public PostModel(int id, String body, Date createdDate) {
+        this.id = id;
+        this.body = body;
+        this.createdDate = createdDate;
+    }
 
     public int getId() {
         return id;
@@ -54,12 +64,11 @@ public class PostModel {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdString) {
-//        java.util.Date currentDate = Calendar.getInstance().getTime();
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//        String dateFormat = simpleDateFormat.format(currentDate); //"16-09-2020"
-//        Date currentSQLDate = Date.valueOf(dateFormat);
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        this.createdDate = Date.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+    public void setCreatedDate(Date createdString) {
+        this.createdDate = createdString;
     }
 }

@@ -41,9 +41,9 @@ public class PostController {
     }
 
     @RequestMapping(value = "/getPostById", method = RequestMethod.GET, produces = MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE)
-    public Optional<PostModel> getPostById(@RequestParam("id") Long id) {
+    public PostModel getPostById(@RequestParam("id") int id) {
 
-        return postRepository.findById(id);
+        return postRepository.getPostById(id);
     }
 
 
