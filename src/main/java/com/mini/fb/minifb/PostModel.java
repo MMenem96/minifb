@@ -64,6 +64,10 @@ public class PostModel {
         return createdDate;
     }
 
+    public UserModel getUser() {
+        return user;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
